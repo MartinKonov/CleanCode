@@ -1,33 +1,23 @@
 #include "Piece.h"
 
-Piece::Piece()
+Piece::Piece() : pieceName(""), playerId(0) {}
+
+Piece::Piece(const String pieceName,const int playerId)
 {
-	name = "";
-	player = 0;
+	this->pieceName = pieceName;
+	this->playerId = playerId;
 }
 
-Piece::Piece(const String _name,const int _player)
-{
-	name = _name;
-	player = _player;
+void Piece::setPieceName(const String pieceName) {
+    this->pieceName = pieceName;
 }
 
-void Piece::setName(const String _name)
-{
-	name = _name;
+void Piece::setPlayerId(int playerId) {
+    this->playerId = playerId;
 }
-
-void Piece::setPlayer(const int _player)
-{
-	player = _player;
+String Piece::getPieceName() const {
+    return pieceName;
 }
-
-String Piece:: getName() const
-{
-	return name;
-}
-
-int Piece::getPlayer() const
-{
-	return player;
+int Piece::getPlayerId() const {
+    return playerId;
 }

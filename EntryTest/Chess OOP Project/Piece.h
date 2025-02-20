@@ -3,13 +3,13 @@
 
 class Piece {
 private:
-	String name;
-	int player;
+	String pieceName;
+	int playerId;
 public:
 	Piece();
-	Piece(const String _name, const int _player);
-	void setName(const String _name);
-	void setPlayer(const int _player);
-	String getName() const; 
-	int getPlayer() const;
+	Piece(const String pieceName, const int playerId);
+	void setPieceName(const String pieceName);
+	void setPlayerId(const int playerId);
+	String getPieceName() const; 
+	int getPlayerId() const;
 };

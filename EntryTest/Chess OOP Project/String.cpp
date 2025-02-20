@@ -1,152 +1,148 @@
 #include "String.h"
 
-void String::addString(const String& other) {
-    if (size == capacity) {
-        resize();
+void String::append(const String& other) {
+    if (currentSize == capacity) {
+        expandCapacity();
     }
-    if (capacity - size >= other.size) {
-        size_t temp = size;
-        for (int i = 0; i < other.size; i++) {
-            str[temp] = other.str[i];
-            ++temp;
+
+    if (capacity - currentSize >= other.currentSize) {
+        size_t tempIndex = currentSize;
+        for (size_t i = 0; i < other.currentSize; i++) {
+            charArray[tempIndex++] = other.charArray[i];
         }
-        size = size + other.size;
-        str[size] = '\0';
-    }
-    else {
-        resize();
-        addString(other);
+        currentSize += other.currentSize;
+        charArray[currentSize] = '\0';
+    } else {
+        expandCapacity();
+        append(other);
     }
 }
 
 void String::copy(const String& other) {
     capacity = other.capacity;
-    size = other.size;
-    str = new char[capacity + 1];
+    currentSize = other.currentSize;
+    charArray = new char[capacity + 1];
 
-    for (int i = 0; i < size; i++) {
-        str[i] = other.str[i];
+    for (size_t i = 0; i < currentSize; i++) {
+        charArray[i] = other.charArray[i];
     }
-    str[size] = '\0';
+    charArray[currentSize] = '\0';
 }
 
-void String::resize() {
-    capacity = capacity * 2;
-    char* temp = new char[capacity + 1];
-    for (int i = 0; i < size; i++) {
-        temp[i] = str[i];
+void String::expandCapacity() {
+    capacity *= 2;
+    char* tempArray = new char[capacity + 1];
+
+    for (size_t i = 0; i < currentSize; i++) {
+        tempArray[i] = charArray[i];
     }
-    delete[] str;
-    str = temp;
+
+    delete[] charArray;
+    charArray = tempArray;
 }
 
-void String::destroy() {
-    delete[] this->str;
-    // this->str = nullptr;
+void String::freeMemory() {
+    delete[] charArray;
 }
 
-String::String() :str(nullptr), size(0), capacity(8) {}
+// Constructors & Destructor
+String::String() : charArray(nullptr), currentSize(0), capacity(8) {}
 
 String::String(const String& other) {
     copy(other);
 }
 
+String::String(const char* inputString) {
+    currentSize = strlen(inputString);
+    capacity = currentSize * 2;
+    charArray = new char[capacity + 1];
+    strcpy_s(charArray, capacity + 1, inputString);
+    charArray[currentSize] = '\0';
+}
+
+String::~String() {
+    freeMemory();
+}
+
+// Operators
 String& String::operator=(const String& other) {
     if (this != &other) {
-        destroy();
+        freeMemory();
         copy(other);
     }
     return *this;
 }
 
-String::~String() {
-    destroy();
-}
-
-String::String(const char* _str) {
-    size = strlen(_str);
-    capacity = size * 2;
-    str = new char[capacity + 1];
-    strcpy_s(str, capacity + 1, _str);
-    str[size] = '\0';
-}
-
-size_t String::getLen() const {
-    return size;
-}
-
-const bool String::isEmpty() const {
-    return size == 0;
-}
-
-bool String::contains(String toFind)
-{
-    bool result = false;
-    for (int i = 0; i < toFind.size; i++) {
-        if (str[i] == toFind[i]) {
-            for (int j = i; j < toFind.size + i; j++) {
-                if (str[j] != toFind[j - i]) break;
-                if (toFind.size - 1 == j - i) {
-                    result = true;
-                    break;
-                }
-            }
-
-        }
-    }
-
-    return result;
-
-}
-
-char String::operator[](const size_t index) const {
-
-    if (index >= this->size) {
-        exit(-1);
-    }
-    return this->str[index];
-}
-
-void String::addChar(const char& add) {
-    if (size == capacity - 1) {
-        resize();
-    }
-    str[size] = add;
-    ++size;
-    str[size] = '\0';
-}
-
-void String::removeChar() {
-    size--;
-    str[size] = '\0';
-}
-
 String& String::operator+(const String& other) {
-    addString(other);
-    return*this;
+    append(other);
+    return *this;
 }
 
 String& String::operator+=(const String& other) {
-    addString(other);
-    return*this;
+    append(other);
+    return *this;
 }
 
-bool String::operator==(const String& other) {
-    return strcmp(str, other.str) == 0 ? true : false;
+char String::operator[](size_t index) const {
+    if (index >= currentSize) {
+        exit(-1);
+    }
+    return charArray[index];
 }
 
-std::ostream& operator<<(std::ostream& os, const String& _string) {
-    for (int i = 0;i < _string.size;i++) {
-        os << _string.str[i];
+bool String::operator==(const String& other) const {
+    return strcmp(charArray, other.charArray) == 0;
+}
+
+size_t String::length() const {
+    return currentSize;
+}
+
+bool String::isEmpty() const {
+    return currentSize == 0;
+}
+
+bool String::contains(const String& substring) const {
+    for (size_t i = 0; i < currentSize - substring.currentSize + 1; i++) {
+        bool matchFound = true;
+        for (size_t j = 0; j < substring.currentSize; j++) {
+            if (charArray[i + j] != substring.charArray[j]) {
+                matchFound = false;
+                break;
+            }
+        }
+        if (matchFound) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void String::appendCharacter(char character) {
+    if (currentSize == capacity - 1) {
+        expandCapacity();
+    }
+    charArray[currentSize++] = character;
+    charArray[currentSize] = '\0';
+}
+
+void String::removeLastCharacter() {
+    if (currentSize > 0) {
+        charArray[--currentSize] = '\0';
+    }
+}
+
+// Stream Operators
+std::ostream& operator<<(std::ostream& os, const String& stringObj) {
+    for (size_t i = 0; i < stringObj.currentSize; i++) {
+        os << stringObj.charArray[i];
     }
     return os;
 }
 
-std::istream& operator>>(std::istream& is, String& _string) {
-    char* buffer = new char[128];
+std::istream& operator>>(std::istream& is, String& stringObj) {
+    char buffer[128];
     is.getline(buffer, 128);
-    _string = String(buffer);
-    delete[] buffer;
-
+    stringObj = String(buffer);
     return is;
 }

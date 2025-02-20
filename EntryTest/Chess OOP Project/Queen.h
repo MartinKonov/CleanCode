@@ -4,6 +4,6 @@
 
 class Queen : public Piece {
 public:
-	Queen() :Piece() {}
-	Queen(const String _name, const int _player) :Piece(_name, _player) {}
+	Queen() = default;
+	Queen(const String pieceName, const int playerId) :Piece(pieceName, playerId) {}
 };

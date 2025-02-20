@@ -3,6 +3,6 @@
 
 class Rook :public Piece {
 public:
-	Rook() :Piece() {}
-	Rook(const String _name, const int _player) :Piece(_name, _player) {}
+	Rook() = default;
+	Rook(const String pieceName, const int playerId) :Piece(pieceName, playerId) {}
 };

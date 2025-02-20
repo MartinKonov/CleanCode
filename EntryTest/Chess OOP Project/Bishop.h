@@ -3,6 +3,6 @@
 
 class Bishop :public Piece {
 public:
-	Bishop() :Piece() {}
-	Bishop(const String _name, const int _player) :Piece(_name, _player) {}
+	Bishop() = default;
+	Bishop(const String pieceName, const int playerId) :Piece(pieceName, playerId) {}
 };

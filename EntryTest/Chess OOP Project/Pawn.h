@@ -3,6 +3,6 @@
 
 class Pawn :public Piece {
 public:
-	Pawn() :Piece(){}
-	Pawn(const String _name, const int _player) :Piece(_name, _player) {}
+	Pawn() = default;
+	Pawn(const String pieceName, const int playerId) :Piece(pieceName, playerId) {}
 };
