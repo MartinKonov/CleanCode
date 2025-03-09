@@ -1,15 +1,16 @@
 package MyFitnessPal;
 
 import MyFitnessPal.models.WaterEntry;
+import MyFitnessPal.storage.WaterStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 public class WaterTracker {
     private List<WaterEntry> entries;
-    private Storage storage;
+    private WaterStorage storage;
 
-    public WaterTracker(Storage storage) {
+    public WaterTracker(WaterStorage storage) {
         this.storage = storage;
         this.entries = storage.loadEntries();
     }

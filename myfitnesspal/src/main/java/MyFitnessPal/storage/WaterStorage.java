@@ -1,4 +1,4 @@
-package MyFitnessPal;
+package MyFitnessPal.storage;
 
 import MyFitnessPal.models.WaterEntry;
 
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Storage {
+public class WaterStorage {
     private static final String FILE_NAME = "water_data.txt";
 
     public void saveEntries(List<WaterEntry> entries) {

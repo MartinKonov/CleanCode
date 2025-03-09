@@ -1,6 +1,7 @@
 package MyFitnessPal;
 
 import MyFitnessPal.models.WaterEntry;
+import MyFitnessPal.storage.WaterStorage;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +11,7 @@ class WaterTrackerTest {
 
     @org.junit.jupiter.api.Test
     void addEntry() {
-        Storage storage = new Storage();
+        WaterStorage storage = new WaterStorage();
         WaterTracker tracker = new WaterTracker(storage);
         tracker.addEntry(LocalDate.parse("2025-03-05"), 500);
         List<WaterEntry> entriesForTestDate = tracker.getEntriesForDate(LocalDate.parse("2025-03-05"));
@@ -23,7 +24,7 @@ class WaterTrackerTest {
 
     @org.junit.jupiter.api.Test
     void getEntriesForDate() {
-        Storage storage = new Storage();
+        WaterStorage storage = new WaterStorage();
         WaterTracker tracker = new WaterTracker(storage);
 
         tracker.addEntry(LocalDate.parse("2024-03-04"), 250);
