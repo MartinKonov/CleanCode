@@ -1,5 +1,6 @@
-package MyFitnessPal;
+package MyFitnessPal.Tests;
 
+import MyFitnessPal.WaterTracker;
 import MyFitnessPal.models.WaterEntry;
 import MyFitnessPal.storage.WaterStorage;
 
