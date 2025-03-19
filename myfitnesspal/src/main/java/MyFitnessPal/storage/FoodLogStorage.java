@@ -42,7 +42,7 @@ public class FoodLogStorage {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                if (parts.length != 9) { // Adjusted to match the correct format
+                if (parts.length != 13) { // Adjusted to match the correct format
                     throw new NumberFormatException("Invalid log entry format.");
                 }
 
